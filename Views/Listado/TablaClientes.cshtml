@@ -1,0 +1,50 @@
+@model IEnumerable<SistemaAlmacenamiento.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Listado de Clientes";
+}
+
+<h1>Listado de Clientes</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>RUC</th>
+            <th>Razón Social</th>
+            <th>Dirección</th>
+            <th>Fecha de Creación</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            
+            foreach (var cliente in Model)
+            {
+                <tr>
+                    <td>@cliente.Id</td>
+                    <td>@cliente.Ruc</td>
+                    <td>@cliente.RazonSocial</td>
+                    <td>@cliente.Direccion</td>
+                    <td>@cliente.FechaCreacion.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@cliente.Id" class="btn btn-warning btn-sm">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@cliente.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+                
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No hay clientes registrados.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Cliente" asp-action="Crear" class="btn btn-primary">Registrar Nuevo Cliente</a>
+</div>
