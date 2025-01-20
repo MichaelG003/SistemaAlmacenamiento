@@ -16,5 +16,7 @@ namespace SistemaAlmacenamiento.Models
         public string RazonSocial { get; set; }
         public string Direccion { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public DateTime? FechaModificacion { get; set; } // Nueva columna
+        public bool Estado { get; set; } = true; // Por defecto, los clientes estarán activos
     }
 }

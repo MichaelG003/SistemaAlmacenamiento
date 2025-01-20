@@ -14,6 +14,7 @@
             <th>Razón Social</th>
             <th>Dirección</th>
             <th>Fecha de Creación</th>
+            <th>Fecha Modificación</th>
         </tr>
     </thead>
     <tbody>
@@ -28,8 +29,9 @@
                     <td>@cliente.RazonSocial</td>
                     <td>@cliente.Direccion</td>
                     <td>@cliente.FechaCreacion.ToString("yyyy-MM-dd")</td>
+                    <td>@(cliente.FechaModificacion?.ToString("yyyy-MM-dd") ?? "N/A")</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@cliente.Id" class="btn btn-warning btn-sm">Editar</a>
+                        <a asp-action="EditarCliente" asp-route-id="@cliente.Id" class="btn btn-warning btn-sm">Editar</a>
                         <a asp-action="Delete" asp-route-id="@cliente.Id" class="btn btn-danger btn-sm">Eliminar</a>
                     </td>
                 </tr>

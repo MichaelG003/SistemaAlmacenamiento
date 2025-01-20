@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SistemaAlmacenamiento.Models;
 using SistemaAlmacenamiento.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SistemaAlmacenamiento.Controllers
 {
@@ -39,6 +40,7 @@ namespace SistemaAlmacenamiento.Controllers
             }
             return View(clientes); // Si hay errores, vuelve a mostrar el formulario
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

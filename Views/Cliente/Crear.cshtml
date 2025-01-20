@@ -11,33 +11,38 @@
         <form asp-action="Crear" method="post">
             <div class="form-group">
                 <label for="Ruc">RUC</label>
+                <br>
                 <input asp-for="Ruc" class="form-control" maxlength="11" minlength="11" required />
                 <span asp-validation-for="Ruc" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label for="RazonSocial">Razón Social</label>
+                <br>
                 <input asp-for="RazonSocial" class="form-control" maxlength="100" required />
                 <span asp-validation-for="RazonSocial" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label for="Direccion">Dirección</label>
+                <br>
                 <input asp-for="Direccion" class="form-control" maxlength="200" required />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label for="FechaCreacion">Fecha de Creación</label>
+                <br>
                 <input asp-for="FechaCreacion" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly disabled />
                 <span asp-validation-for="FechaCreacion" class="text-danger"></span>
             </div>
-
+            <br>
             <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
 
         <div>
-            <a asp-controller="Listado" asp-action="TablaClientes">Volver al listado</a>
+            <br>
+            <a class="btn btn-primary" asp-controller="Listado" asp-action="TablaClientes">Volver al listado</a>
         </div>
     </div>
 </div>

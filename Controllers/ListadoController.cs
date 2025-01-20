@@ -27,6 +27,58 @@ namespace SistemaAlmacenamiento.Controllers
             return View(clientes);
         }
 
+                // Acción para mostrar el formulario de edición
+        public async Task<IActionResult> EditarCliente(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            return View(cliente);
+        }
+
+
+        // Acción para procesar los cambios del cliente
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditarCliente(int id, Cliente cliente)
+        {
+            if (id != cliente.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    cliente.FechaModificacion = DateTime.UtcNow; // Actualiza la fecha de modificación
+                    _context.Update(cliente);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Clientes.Any(e => e.Id == cliente.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("TablaClientes","Listado");
+            }
+            return View(cliente);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
