@@ -15,7 +15,11 @@ namespace SistemaAlmacenamiento.Models
         public string Ruc { get; set; }
         public string RazonSocial { get; set; }
         public string Direccion { get; set; }
+
+        [Column(TypeName = "timestamptz")]
         public DateTime FechaCreacion { get; set; }
+        
+        [Column(TypeName = "timestamptz")]
         public DateTime? FechaModificacion { get; set; } // Nueva columna
         public bool Estado { get; set; } = true; // Por defecto, los clientes estarán activos
     }

@@ -23,11 +23,46 @@ namespace SistemaAlmacenamiento.Controllers
         // Acción para mostrar la tabla de clientes
         public async Task<IActionResult> TablaClientes()
         {
-            var clientes = await _context.Clientes.ToListAsync();
+            var clientes = await _context.Clientes.OrderBy(c => c.Id).ToListAsync();
             return View(clientes);
         }
 
-                // Acción para mostrar el formulario de edición
+        // Acción para mostrar la tabla de clientes con un filtro
+        public IActionResult FiltroCliente(bool? estado)
+        {
+            var clientes = _context.Clientes.AsQueryable();
+
+            if (estado.HasValue)
+            {
+                clientes = clientes.Where(c => c.Estado == estado.Value);
+            }
+
+            return View(clientes.ToList());
+        }
+
+        // Acción para mostrar la tabla de clientes con un cliente desactivado
+        public async Task<IActionResult> DesactivarCliente(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            cliente.Estado = false; // Cambia el estado a desactivado
+            cliente.FechaModificacion = DateTime.UtcNow; // Actualiza la fecha de modificación
+            _context.Update(cliente);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(TablaClientes));
+        }
+
+        // Acción para mostrar el formulario de edición
         public async Task<IActionResult> EditarCliente(int? id)
         {
             if (id == null)
@@ -59,7 +94,9 @@ namespace SistemaAlmacenamiento.Controllers
             {
                 try
                 {
-                    cliente.FechaModificacion = DateTime.UtcNow; // Actualiza la fecha de modificación
+                    // Asegúrate de que FechaCreacion y FechaModificacion estén en UTC
+                    cliente.FechaCreacion = DateTime.SpecifyKind(cliente.FechaCreacion, DateTimeKind.Utc);
+                    cliente.FechaModificacion = DateTime.UtcNow; // Actualiza la fecha de modificación a UTC
                     _context.Update(cliente);
                     await _context.SaveChangesAsync();
                 }
@@ -74,7 +111,7 @@ namespace SistemaAlmacenamiento.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("TablaClientes","Listado");
+                return RedirectToAction("TablaClientes","Listado"); // Redirige a la lista de Clientes
             }
             return View(cliente);
         }
